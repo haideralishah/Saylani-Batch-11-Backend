@@ -1,0 +1,57 @@
+This code defines an Express.js route handler for user registration and login, using several libraries to validate input, hash passwords, and manage authentication. Here's a summary of each library and its purpose:
+
+1. express
+Purpose: Used to create an Express.js server and handle HTTP requests and responses.
+Usage:
+The express.Router() is used to define route handlers for /register and /login endpoints.
+The router.post() method is used to handle POST requests for both registration and login.
+2. Joi
+Purpose: A library for input validation to ensure that incoming request data meets certain conditions.
+Usage:
+The registerSchema and loginSchema are used to validate the request body for user registration and login.
+It checks if the data is of the correct type, format, and length (e.g., email format, password length, etc.).
+3. sendResponse (Custom Helper)
+Purpose: A custom helper function to send standardized responses to the client.
+Usage:
+This helper is used to send the appropriate HTTP response with a status code, data, and a message.
+It handles both success and error responses for user registration and login.
+4. User (Mongoose Model)
+Purpose: Represents the user model in the database (MongoDB), defined using Mongoose.
+Usage:
+Used to interact with the MongoDB database (e.g., User.findOne() to check if a user exists).
+New users are created and saved using the new User() constructor and newUser.save() method.
+5. bcrypt
+Purpose: A library for hashing and comparing passwords securely.
+Usage:
+During registration, the user's password is hashed using bcrypt.hash() before saving it to the database.
+During login, the hashed password is compared with the stored hash using bcrypt.compare() to validate the user's credentials.
+6. jsonwebtoken (JWT)
+Purpose: A library for creating JSON Web Tokens (JWT) for user authentication.
+Usage:
+In the login route, a JWT token is created using jwt.sign() to authenticate the user. This token is returned to the client so they can use it for future requests.
+7. dotenv
+Purpose: Loads environment variables from a .env file.
+Usage:
+The dotenv/config import loads environment variables from a .env file, making process.env.AUTH_SECRET available for use in creating the JWT token.
+Flow of the Code:
+Registration (/register POST route):
+
+The request body is validated using Joi (registerSchema).
+It checks if the user already exists in the database (User.findOne()).
+The password is hashed using bcrypt.hash().
+The user is saved to the database (new User().save()).
+A success response is sent back with the newly created user details.
+Login (/login POST route):
+
+The request body is validated using Joi (loginSchema).
+The system checks if the user exists in the database (User.findOne()).
+The password is verified using bcrypt.compare().
+If the credentials are valid, a JWT token is generated and sent in the response along with user data.
+In summary:
+
+Express for routing.
+Joi for input validation.
+Mongoose for MongoDB interaction (via the User model).
+bcrypt for password hashing and comparison.
+jsonwebtoken (JWT) for token-based authentication.
+dotenv for environment variable management.

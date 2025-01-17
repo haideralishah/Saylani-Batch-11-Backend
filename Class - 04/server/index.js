@@ -1,7 +1,7 @@
 /*
     1. create channel
-    2. subscribe
-    3. broadcaster
+    2. subscribe on("channel_name")
+    3. broadcaster to(socketId).emit("channel_name")
 */
 
 import express from "express";

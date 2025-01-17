@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Hello World</h1>
 
-    <input type="text" class="message" />
-    <button onclick="sendMessage()">Send Message</button>
-    <div id="messages"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
 
-    <script
-      src="https://cdn.socket.io/4.8.1/socket.io.min.js"
-      integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
-      crossorigin="anonymous"
-    ></script>
-    <script src="app.js"></script>
-  </body>
+<body>
+  <h1>Hello World</h1>
+
+  <input type="email" class="email" />
+  <input type="password" class="password" />
+  <button onclick="register()">Signup</button>
+  <button onclick="login()">Login</button>
+
+
+
+
+  <input type="text" class="message" />
+  <button onclick="sendMessage()">Send Message</button>
+  <div id="messages"></div>
+
+
+
+  <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+
+
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+    integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+    crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+
 </html>
