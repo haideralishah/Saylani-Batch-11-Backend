@@ -8,6 +8,9 @@ import authenticateUser from "./middlewares/authenticateUser.js";
 import cors from 'cors'
 import http from 'http';
 import { Server } from 'socket.io';
+import User from './models/User.js'
+import Message from './models/Message.js'
+
 
 const app = express();
 app.use(express.json()); //poori app pe laga he
@@ -30,18 +33,60 @@ const io = new Server(server, {
 
 const userIds = {};
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   console.log(`User connected on: ${socket.id}`);
 
-  socket.on('register_user', (user) => {
+
+  socket.on('register_user', async (user) => {
     if (!user) return;
     // console.log(user.user._id, socket.id);
     userIds[user.user._id] = socket.id
     console.log("Connected User IDs:", userIds)
 
+
+    let allUsers = await User.find({
+      _id: { $ne: user.user._id }
+    }).select("-password");
+
+    socket.emit("fetch_users", { friendList: allUsers })
+    // socket.emit('fetch_messages', {});
+
   })
 
-  socket.emit('fetch_messages', {});
+  socket.on("fetch_prev_chat", async ({ receiverId, senderId }) => {
+    console.log(' receiverId, senderId', receiverId, senderId)
+    let prevMessages = await Message.find({
+      $or: [
+        {
+          "receiverId": receiverId,
+          "senderId": senderId
+        },
+        {
+          "receiverId": senderId,
+          "senderId": receiverId
+        }
+      ]
+    });
+    const targetSocket = userIds[senderId];
+
+    console.log(prevMessages, 'prevMessages')
+    prevMessages.forEach(({ message, senderId, receiverId }) => {
+      io.to(targetSocket).emit("send_message", { message, senderId, receiverId });
+    })
+
+  })
+
+
+  socket.on("new_message", async ({ message, senderId, receiverId }) => {
+    console.log(message, senderId, receiverId)
+    const targetSocket = userIds[receiverId];
+    console.log(targetSocket);
+    const newMessage = new Message({ message, senderId, receiverId });
+    await newMessage.save();
+
+    io.to(targetSocket).emit("send_message", { message, senderId, receiverId });
+
+  })
 
 
 

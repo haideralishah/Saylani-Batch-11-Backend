@@ -1,0 +1,9 @@
+.own-message {
+    text-align: right;
+    background-color: blanchedalmond;
+}
+
+.others-message {
+    text-align: left;
+    background-color: cornsilk;
+}

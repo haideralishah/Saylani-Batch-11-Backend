@@ -5,10 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>Hello World</h1>
 
   <input type="email" class="email" />
   <input type="password" class="password" />
@@ -20,7 +20,16 @@
 
   <input type="text" class="message" />
   <button onclick="sendMessage()">Send Message</button>
-  <div id="messages"></div>
+  <div class="friend-list-container"></div>
+
+  <h1 class="chat-recepient"></h1>
+
+  <div style="display: none;" class="new-msg-container">
+    <input type="text" class="new-message"><button onclick="sendNewMessage()">Send</button>
+  </div>
+
+
+  <div class="messages"></div>
 
 
 
