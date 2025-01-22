@@ -10,3 +10,8 @@ const taskSchema = new Schema({
 
 const Task = mongoose.model('Task', taskSchema);
 export default Task
+
+const data = await Task.find().populate("User")
+
+
+
